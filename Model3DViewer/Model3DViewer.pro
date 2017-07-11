@@ -21,6 +21,5 @@ HEADERS  += mainwindow.h \
 
 FORMS    += mainwindow.ui
 
-
 LIBS += -lOpengl32
 CONFIG += c++11
