@@ -17,7 +17,8 @@ SOURCES += main.cpp\
     openglwidget.cpp
 
 HEADERS  += mainwindow.h \
-    openglwidget.h
+    openglwidget.h \
+    vertex.h
 
 FORMS    += mainwindow.ui
 

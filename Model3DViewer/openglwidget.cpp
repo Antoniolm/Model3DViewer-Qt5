@@ -18,31 +18,133 @@
 // *********************************************************************
 
 #include "openglwidget.h"
+#include <QDebug>
+#include <QString>
+#include <QOpenGLShaderProgram>
+#include <QExposeEvent>
+#include "vertex.h"
 
-OpenGLWidget::OpenGLWidget(QWidget *parent){
+// Create a colored cube
+static const Vertex sg_vertexes[] = {
+    // Face 1 (Front)
+      Vertex( QVector3D( 0.5f,  0.5f,  0.5f), QVector3D( 1.0f, 0.0f, 0.0f ) ),
+      Vertex( QVector3D(-0.5f,  0.5f,  0.5f), QVector3D( 0.0f, 1.0f, 0.0f ) ),
+      Vertex( QVector3D(-0.5f, -0.5f,  0.5f), QVector3D( 0.0f, 0.0f, 1.0f ) ),
+      Vertex( QVector3D(-0.5f, -0.5f,  0.5f), QVector3D( 0.0f, 0.0f, 1.0f ) ),
+      Vertex( QVector3D( 0.5f, -0.5f,  0.5f), QVector3D( 0.0f, 0.0f, 0.0f ) ),
+      Vertex( QVector3D( 0.5f,  0.5f,  0.5f), QVector3D( 1.0f, 0.0f, 0.0f ) ),
+    // Face 2 (Back)
+      Vertex( QVector3D( 0.5f, -0.5f, -0.5f), QVector3D( 1.0f, 1.0f, 1.0f ) ),
+      Vertex( QVector3D(-0.5f,  0.5f, -0.5f), QVector3D( 0.0f, 1.0f, 1.0f ) ),
+      Vertex( QVector3D( 0.5f,  0.5f, -0.5f), QVector3D( 1.0f, 1.0f, 0.0f ) ),
+      Vertex( QVector3D(-0.5f,  0.5f, -0.5f), QVector3D( 0.0f, 1.0f, 1.0f ) ),
+      Vertex( QVector3D( 0.5f, -0.5f, -0.5f), QVector3D( 1.0f, 1.0f, 1.0f ) ),
+      Vertex( QVector3D(-0.5f, -0.5f, -0.5f), QVector3D( 1.0f, 0.0f, 1.0f ) ),
+    // Face 3 (Top)
+      Vertex( QVector3D( 0.5f,  0.5f,  0.5f), QVector3D( 1.0f, 0.0f, 0.0f ) ),
+      Vertex( QVector3D( 0.5f,  0.5f, -0.5f), QVector3D( 1.0f, 1.0f, 0.0f ) ),
+      Vertex( QVector3D(-0.5f,  0.5f, -0.5f), QVector3D( 0.0f, 1.0f, 1.0f ) ),
+      Vertex( QVector3D(-0.5f,  0.5f, -0.5f), QVector3D( 0.0f, 1.0f, 1.0f ) ),
+      Vertex( QVector3D(-0.5f,  0.5f,  0.5f), QVector3D( 0.0f, 1.0f, 0.0f ) ),
+      Vertex( QVector3D( 0.5f,  0.5f,  0.5f), QVector3D( 1.0f, 0.0f, 0.0f ) ),
+    // Face 4 (Bottom)
+      Vertex( QVector3D( 0.5f, -0.5f,  0.5f), QVector3D( 0.0f, 0.0f, 0.0f ) ),
+      Vertex( QVector3D(-0.5f, -0.5f,  0.5f), QVector3D( 0.0f, 0.0f, 1.0f ) ),
+      Vertex( QVector3D(-0.5f, -0.5f, -0.5f), QVector3D( 1.0f, 0.0f, 1.0f ) ),
+      Vertex( QVector3D(-0.5f, -0.5f, -0.5f), QVector3D( 1.0f, 0.0f, 1.0f ) ),
+      Vertex( QVector3D( 0.5f, -0.5f, -0.5f), QVector3D( 1.0f, 1.0f, 1.0f ) ),
+      Vertex( QVector3D( 0.5f, -0.5f,  0.5f), QVector3D( 0.0f, 0.0f, 0.0f ) ),
+    // Face 5 (Left)
+      Vertex( QVector3D(-0.5f, -0.5f,  0.5f), QVector3D( 0.0f, 0.0f, 1.0f ) ),
+      Vertex( QVector3D(-0.5f,  0.5f,  0.5f), QVector3D( 0.0f, 1.0f, 0.0f ) ),
+      Vertex( QVector3D(-0.5f,  0.5f, -0.5f), QVector3D( 0.0f, 1.0f, 1.0f ) ),
+      Vertex( QVector3D(-0.5f, -0.5f,  0.5f), QVector3D( 0.0f, 0.0f, 1.0f ) ),
+      Vertex( QVector3D(-0.5f,  0.5f, -0.5f), QVector3D( 0.0f, 1.0f, 1.0f ) ),
+      Vertex( QVector3D(-0.5f, -0.5f, -0.5f), QVector3D( 1.0f, 0.0f, 1.0f ) ),
+    // Face 6 (Right)
+      Vertex( QVector3D( 0.5f,  0.5f,  0.5f), QVector3D( 1.0f, 0.0f, 0.0f ) ),
+      Vertex( QVector3D( 0.5f, -0.5f,  0.5f), QVector3D( 0.0f, 0.0f, 0.0f ) ),
+      Vertex( QVector3D( 0.5f, -0.5f, -0.5f), QVector3D( 1.0f, 1.0f, 1.0f ) ),
+      Vertex( QVector3D( 0.5f, -0.5f, -0.5f), QVector3D( 1.0f, 1.0f, 1.0f ) ),
+      Vertex( QVector3D( 0.5f,  0.5f, -0.5f), QVector3D( 1.0f, 1.0f, 0.0f ) ),
+      Vertex( QVector3D( 0.5f,  0.5f,  0.5f), QVector3D( 1.0f, 0.0f, 0.0f ) )
+};
+
+OpenGLWidget::OpenGLWidget(QWidget *parent) : QOpenGLWidget(parent){
 
 }
 
 //**********************************************************************//
 
 OpenGLWidget::~OpenGLWidget(){
-
+    // Actually destroy our OpenGL information
+    object.destroy();
+    vertex.destroy();
+    delete program;
 }
 
 //**********************************************************************//
 
 void OpenGLWidget::initializeGL(){
+    initializeOpenGLFunctions();
 
+    glEnable(GL_CULL_FACE);
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+
+    {
+      //Compile of build of a shader program
+      program = new QOpenGLShaderProgram();
+      program->addShaderFromSourceFile(QOpenGLShader::Vertex, ":shaders/simple.vert");
+      program->addShaderFromSourceFile(QOpenGLShader::Fragment, ":/shaders/simple.frag");
+      program->link();
+      program->bind();
+
+      //Create our buffer of vertex
+      vertex.create();
+      vertex.bind();
+      vertex.setUsagePattern(QOpenGLBuffer::StaticDraw);
+      vertex.allocate(sg_vertexes, sizeof(sg_vertexes));
+
+      //Create our object 3D
+      object.create();
+      object.bind();
+      program->enableAttributeArray(0);
+      program->enableAttributeArray(1);
+      program->setAttributeBuffer(0, GL_FLOAT, Vertex::positionOffset(), Vertex::PositionTupleSize, Vertex::stride());
+      program->setAttributeBuffer(1, GL_FLOAT, Vertex::colorOffset(), Vertex::ColorTupleSize, Vertex::stride());
+
+      //Release opengl information
+      object.release();
+      vertex.release();
+      program->release();
+    }
 }
 
 //**********************************************************************//
 
 void OpenGLWidget::paintGL(){
+    // Clear
+    glClear(GL_COLOR_BUFFER_BIT);
 
+    // Render using our shader
+    program->bind();
+    program->setUniformValue(program->uniformLocation("projection"), projection);
+    QMatrix4x4 transform;
+    transform.translate(0.0,0.0,-5.0);
+
+    object.bind();
+    update();
+
+    program->setUniformValue(program->uniformLocation("view"), transform);
+    glDrawArrays(GL_TRIANGLES, 0, sizeof(sg_vertexes) / sizeof(sg_vertexes[0]));
+    object.release();
+
+    program->release();
 }
 
 //**********************************************************************//
 
 void OpenGLWidget::resizeGL(int w, int h){
-
+    projection.setToIdentity();
+    projection.perspective(45.0f, w / float(h), 0.0f, 1000.0f);
 }

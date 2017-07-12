@@ -42,6 +42,13 @@ protected:
     void resizeGL(int w, int h);
     void paintGL();
 
+private:
+  QOpenGLBuffer vertex;
+  QOpenGLVertexArrayObject object;
+  QOpenGLShaderProgram *program;
+
+  QMatrix4x4 projection;
+
 };
 
 #endif // OPENGLWIDGET_H
