@@ -14,11 +14,13 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    openglwidget.cpp
+    openglwidget.cpp \
+    camera.cpp
 
 HEADERS  += mainwindow.h \
     openglwidget.h \
-    vertex.h
+    vertex.h \
+    camera.h
 
 FORMS    += mainwindow.ui
 
