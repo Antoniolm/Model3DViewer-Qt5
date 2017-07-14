@@ -32,10 +32,10 @@ public:
 
     void setPerspective(float verticalAngle,float aspectRatio,float nearPlan,float farPlan);
     void setOrthographic(float left,float right,float bottom,float top);
-    void setCamera();
+    void setCamera(QVector3D position,QVector3D target, QVector3D up);
 
-    QMatrix4x4 getCamera();
-    QMatrix4x4 getProjection();
+    QMatrix4x4 & getCamera();
+    QMatrix4x4 & getProjection();
 
     void activate();
 

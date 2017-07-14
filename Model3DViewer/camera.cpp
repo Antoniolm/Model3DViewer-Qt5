@@ -21,53 +21,51 @@
 #include "QRect"
 
 Camera::Camera(){
-
 }
 
 //**********************************************************************//
 
-Camera(QVector3D position,QVector3D target, QVector3D up){
-
+Camera::Camera(QVector3D position,QVector3D target, QVector3D up){
+    camera.lookAt(position,target,up);
 }
 
 //**********************************************************************//
 
-virtual ~Camera(){
-
+virtual Camera::~Camera(){
 }
 
 //**********************************************************************//
 
-void setPerspective(float verticalAngle,float aspectRatio,float nearPlan,float farPlan){
-
+void Camera::setPerspective(float verticalAngle,float aspectRatio,float nearPlan,float farPlan){
+    projection.perspective(verticalAngel,aspectRatio,nearPlan,farPlan);
 }
 
 //**********************************************************************//
 
-void setOrthographic(float left,float right,float bottom,float top){
-
+void Camera::setOrthographic(float left,float right,float bottom,float top){
+    projection.ortho(new QRect(right,top,left,bottom));
 }
 
 //**********************************************************************//
 
-void setCamera(){
-
+void Camera::setCamera(QVector3D position,QVector3D target, QVector3D up){
+    camera.lookAt(position,target,up);
 }
 
 //**********************************************************************//
 
-QMatrix4x4 getCamera(){
-
+QMatrix4x4 & Camera::getCamera(){
+    return camera;
 }
 
 //**********************************************************************//
 
-QMatrix4x4 getProjection(){
-
+QMatrix4x4 & Camera::getProjection(){
+    return projection;
 }
 
 //**********************************************************************//
 
-void activate(){
+void Camera::activate(){
 
 }
