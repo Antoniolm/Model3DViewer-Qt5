@@ -66,6 +66,7 @@ QMatrix4x4 & Camera::getProjection(){
 
 //**********************************************************************//
 
-void Camera::activate(){
-
+void Camera::activate(QOpenGLShaderProgram *shader){
+    shader->setUniformValue(program->uniformLocation("projection"), projection);
+    shader->setUniformValue(program->uniformLocation("view"), camera);
 }

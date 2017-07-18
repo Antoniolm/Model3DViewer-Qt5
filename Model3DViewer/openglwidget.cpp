@@ -71,6 +71,9 @@ static const Vertex sg_vertexes[] = {
 };
 
 OpenGLWidget::OpenGLWidget(QWidget *parent) : QOpenGLWidget(parent){
+    camera=new Camera();
+    camera->setCamera(new QVector3D(0.0f,0.0f,-2.5f),new QVector3D(0.0f,0.0f,0.0f),new QVector3D(0.0f,1.0f,0.0f));
+    camera->setPerspective(45.0f, 400 / float(800), 0.0f, 1000.0f);
 }
 
 //**********************************************************************//
@@ -80,6 +83,7 @@ OpenGLWidget::~OpenGLWidget(){
     object.destroy();
     vertex.destroy();
     delete program;
+    delete camera;
 }
 
 //**********************************************************************//
@@ -90,33 +94,31 @@ void OpenGLWidget::initializeGL(){
     glEnable(GL_CULL_FACE);
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
-    {
-      //Compile of build of a shader program
-      program = new QOpenGLShaderProgram();
-      program->addShaderFromSourceFile(QOpenGLShader::Vertex, ":shaders/simple.vert");
-      program->addShaderFromSourceFile(QOpenGLShader::Fragment, ":/shaders/simple.frag");
-      program->link();
-      program->bind();
+    //Compile of build of a shader program
+    program = new QOpenGLShaderProgram();
+    program->addShaderFromSourceFile(QOpenGLShader::Vertex, ":shaders/simple.vert");
+    program->addShaderFromSourceFile(QOpenGLShader::Fragment, ":/shaders/simple.frag");
+    program->link();
+    program->bind();
 
-      //Create our buffer of vertex
-      vertex.create();
-      vertex.bind();
-      vertex.setUsagePattern(QOpenGLBuffer::StaticDraw);
-      vertex.allocate(sg_vertexes, sizeof(sg_vertexes));
+    //Create our buffer of vertex
+    vertex.create();
+    vertex.bind();
+    vertex.setUsagePattern(QOpenGLBuffer::StaticDraw);
+    vertex.allocate(sg_vertexes, sizeof(sg_vertexes));
 
-      //Create our object 3D
-      object.create();
-      object.bind();
-      program->enableAttributeArray(0);
-      program->enableAttributeArray(1);
-      program->setAttributeBuffer(0, GL_FLOAT, Vertex::positionOffset(), Vertex::PositionTupleSize, Vertex::stride());
-      program->setAttributeBuffer(1, GL_FLOAT, Vertex::colorOffset(), Vertex::ColorTupleSize, Vertex::stride());
+    //Create our object 3D
+    object.create();
+    object.bind();
+    program->enableAttributeArray(0);
+    program->enableAttributeArray(1);
+    program->setAttributeBuffer(0, GL_FLOAT, Vertex::positionOffset(), Vertex::PositionTupleSize, Vertex::stride());
+    program->setAttributeBuffer(1, GL_FLOAT, Vertex::colorOffset(), Vertex::ColorTupleSize, Vertex::stride());
 
-      //Release opengl information
-      object.release();
-      vertex.release();
-      program->release();
-    }
+    //Release opengl information
+    object.release();
+    vertex.release();
+    program->release();
 }
 
 //**********************************************************************//
@@ -127,13 +129,10 @@ void OpenGLWidget::paintGL(){
 
     // Render using our shader
     program->bind();
-    program->setUniformValue(program->uniformLocation("projection"), projection);
+    camera->activate(program);
     object.bind();
     update();
-    QMatrix4x4 transform;
-    transform.translate(0.0f,0.0f,-2.5f);
 
-    program->setUniformValue(program->uniformLocation("view"), transform);
     glDrawArrays(GL_TRIANGLES, 0, sizeof(sg_vertexes) / sizeof(sg_vertexes[0]));
     object.release();
     program->release();

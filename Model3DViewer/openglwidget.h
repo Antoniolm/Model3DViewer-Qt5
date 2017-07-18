@@ -27,6 +27,7 @@
 #include <QOpenGLBuffer>
 #include <QOpenGLVertexArrayObject>
 #include <QMatrix4x4>
+#include "camera.h"
 
 class QExposeEvent;
 class QOpenGLShaderProgram;
@@ -47,6 +48,7 @@ private:
   QOpenGLBuffer vertex;
   QOpenGLVertexArrayObject object;
   QOpenGLShaderProgram *program;
+  Camera *camera;
 
   QMatrix4x4 projection;
 

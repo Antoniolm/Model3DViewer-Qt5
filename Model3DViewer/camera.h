@@ -22,6 +22,7 @@
 
 #include "QVector3D"
 #include "QMatrix4x4"
+#include <QOpenGLShaderProgram>
 
 class Camera
 {
@@ -37,7 +38,7 @@ public:
     QMatrix4x4 & getCamera();
     QMatrix4x4 & getProjection();
 
-    void activate();
+    void activate(QOpenGLShaderProgram *shader);
 
 private:
     QMatrix4x4 camera;
