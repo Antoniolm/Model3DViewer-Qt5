@@ -31,19 +31,19 @@ Camera::Camera(QVector3D position,QVector3D target, QVector3D up){
 
 //**********************************************************************//
 
-virtual Camera::~Camera(){
+Camera::~Camera(){
 }
 
 //**********************************************************************//
 
 void Camera::setPerspective(float verticalAngle,float aspectRatio,float nearPlan,float farPlan){
-    projection.perspective(verticalAngel,aspectRatio,nearPlan,farPlan);
+    projection.perspective(verticalAngle,aspectRatio,nearPlan,farPlan);
 }
 
 //**********************************************************************//
 
 void Camera::setOrthographic(float left,float right,float bottom,float top){
-    projection.ortho(new QRect(right,top,left,bottom));
+    projection.ortho(QRect(right,top,left,bottom));
 }
 
 //**********************************************************************//
@@ -67,6 +67,6 @@ QMatrix4x4 & Camera::getProjection(){
 //**********************************************************************//
 
 void Camera::activate(QOpenGLShaderProgram *shader){
-    shader->setUniformValue(program->uniformLocation("projection"), projection);
-    shader->setUniformValue(program->uniformLocation("view"), camera);
+    shader->setUniformValue(shader->uniformLocation("projection"), projection);
+    shader->setUniformValue(shader->uniformLocation("view"), camera);
 }
