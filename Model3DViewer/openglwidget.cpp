@@ -22,52 +22,51 @@
 #include <QString>
 #include <QOpenGLShaderProgram>
 #include <QExposeEvent>
-#include "vertex.h"
 
 // Create a colored cube
-static const Vertex sg_vertexes[] = {
+static const QVector3D sg_vertexes[] = {
     // Face 1 (Front)
-      Vertex( QVector3D( 0.5f,  0.5f,  0.5f), QVector3D( 1.0f, 0.0f, 0.0f ) ),
-      Vertex( QVector3D(-0.5f,  0.5f,  0.5f), QVector3D( 0.0f, 1.0f, 0.0f ) ),
-      Vertex( QVector3D(-0.5f, -0.5f,  0.5f), QVector3D( 0.0f, 0.0f, 1.0f ) ),
-      Vertex( QVector3D(-0.5f, -0.5f,  0.5f), QVector3D( 0.0f, 0.0f, 1.0f ) ),
-      Vertex( QVector3D( 0.5f, -0.5f,  0.5f), QVector3D( 0.0f, 0.0f, 0.0f ) ),
-      Vertex( QVector3D( 0.5f,  0.5f,  0.5f), QVector3D( 1.0f, 0.0f, 0.0f ) ),
+      QVector3D( 0.5f,  0.5f,  0.5f),
+      QVector3D(-0.5f,  0.5f,  0.5f),
+      QVector3D(-0.5f, -0.5f,  0.5f),
+      QVector3D(-0.5f, -0.5f,  0.5f),
+      QVector3D( 0.5f, -0.5f,  0.5f),
+      QVector3D( 0.5f,  0.5f,  0.5f),
     // Face 2 (Back)
-      Vertex( QVector3D( 0.5f, -0.5f, -0.5f), QVector3D( 1.0f, 1.0f, 1.0f ) ),
-      Vertex( QVector3D(-0.5f,  0.5f, -0.5f), QVector3D( 0.0f, 1.0f, 1.0f ) ),
-      Vertex( QVector3D( 0.5f,  0.5f, -0.5f), QVector3D( 1.0f, 1.0f, 0.0f ) ),
-      Vertex( QVector3D(-0.5f,  0.5f, -0.5f), QVector3D( 0.0f, 1.0f, 1.0f ) ),
-      Vertex( QVector3D( 0.5f, -0.5f, -0.5f), QVector3D( 1.0f, 1.0f, 1.0f ) ),
-      Vertex( QVector3D(-0.5f, -0.5f, -0.5f), QVector3D( 1.0f, 0.0f, 1.0f ) ),
+      QVector3D( 0.5f, -0.5f, -0.5f),
+      QVector3D(-0.5f,  0.5f, -0.5f),
+      QVector3D( 0.5f,  0.5f, -0.5f),
+      QVector3D(-0.5f,  0.5f, -0.5f),
+      QVector3D( 0.5f, -0.5f, -0.5f),
+      QVector3D(-0.5f, -0.5f, -0.5f),
     // Face 3 (Top)
-      Vertex( QVector3D( 0.5f,  0.5f,  0.5f), QVector3D( 1.0f, 0.0f, 0.0f ) ),
-      Vertex( QVector3D( 0.5f,  0.5f, -0.5f), QVector3D( 1.0f, 1.0f, 0.0f ) ),
-      Vertex( QVector3D(-0.5f,  0.5f, -0.5f), QVector3D( 0.0f, 1.0f, 1.0f ) ),
-      Vertex( QVector3D(-0.5f,  0.5f, -0.5f), QVector3D( 0.0f, 1.0f, 1.0f ) ),
-      Vertex( QVector3D(-0.5f,  0.5f,  0.5f), QVector3D( 0.0f, 1.0f, 0.0f ) ),
-      Vertex( QVector3D( 0.5f,  0.5f,  0.5f), QVector3D( 1.0f, 0.0f, 0.0f ) ),
+      QVector3D( 0.5f,  0.5f,  0.5f),
+      QVector3D( 0.5f,  0.5f, -0.5f),
+      QVector3D(-0.5f,  0.5f, -0.5f),
+      QVector3D(-0.5f,  0.5f, -0.5f),
+      QVector3D(-0.5f,  0.5f,  0.5f),
+      QVector3D( 0.5f,  0.5f,  0.5f),
     // Face 4 (Bottom)
-      Vertex( QVector3D( 0.5f, -0.5f,  0.5f), QVector3D( 0.0f, 0.0f, 0.0f ) ),
-      Vertex( QVector3D(-0.5f, -0.5f,  0.5f), QVector3D( 0.0f, 0.0f, 1.0f ) ),
-      Vertex( QVector3D(-0.5f, -0.5f, -0.5f), QVector3D( 1.0f, 0.0f, 1.0f ) ),
-      Vertex( QVector3D(-0.5f, -0.5f, -0.5f), QVector3D( 1.0f, 0.0f, 1.0f ) ),
-      Vertex( QVector3D( 0.5f, -0.5f, -0.5f), QVector3D( 1.0f, 1.0f, 1.0f ) ),
-      Vertex( QVector3D( 0.5f, -0.5f,  0.5f), QVector3D( 0.0f, 0.0f, 0.0f ) ),
+      QVector3D( 0.5f, -0.5f,  0.5f),
+      QVector3D(-0.5f, -0.5f,  0.5f),
+      QVector3D(-0.5f, -0.5f, -0.5f),
+      QVector3D(-0.5f, -0.5f, -0.5f),
+      QVector3D( 0.5f, -0.5f, -0.5f),
+      QVector3D( 0.5f, -0.5f,  0.5f),
     // Face 5 (Left)
-      Vertex( QVector3D(-0.5f, -0.5f,  0.5f), QVector3D( 0.0f, 0.0f, 1.0f ) ),
-      Vertex( QVector3D(-0.5f,  0.5f,  0.5f), QVector3D( 0.0f, 1.0f, 0.0f ) ),
-      Vertex( QVector3D(-0.5f,  0.5f, -0.5f), QVector3D( 0.0f, 1.0f, 1.0f ) ),
-      Vertex( QVector3D(-0.5f, -0.5f,  0.5f), QVector3D( 0.0f, 0.0f, 1.0f ) ),
-      Vertex( QVector3D(-0.5f,  0.5f, -0.5f), QVector3D( 0.0f, 1.0f, 1.0f ) ),
-      Vertex( QVector3D(-0.5f, -0.5f, -0.5f), QVector3D( 1.0f, 0.0f, 1.0f ) ),
+      QVector3D(-0.5f, -0.5f,  0.5f),
+      QVector3D(-0.5f,  0.5f,  0.5f),
+      QVector3D(-0.5f,  0.5f, -0.5f),
+      QVector3D(-0.5f, -0.5f,  0.5f),
+      QVector3D(-0.5f,  0.5f, -0.5f),
+      QVector3D(-0.5f, -0.5f, -0.5f),
     // Face 6 (Right)
-      Vertex( QVector3D( 0.5f,  0.5f,  0.5f), QVector3D( 1.0f, 0.0f, 0.0f ) ),
-      Vertex( QVector3D( 0.5f, -0.5f,  0.5f), QVector3D( 0.0f, 0.0f, 0.0f ) ),
-      Vertex( QVector3D( 0.5f, -0.5f, -0.5f), QVector3D( 1.0f, 1.0f, 1.0f ) ),
-      Vertex( QVector3D( 0.5f, -0.5f, -0.5f), QVector3D( 1.0f, 1.0f, 1.0f ) ),
-      Vertex( QVector3D( 0.5f,  0.5f, -0.5f), QVector3D( 1.0f, 1.0f, 0.0f ) ),
-      Vertex( QVector3D( 0.5f,  0.5f,  0.5f), QVector3D( 1.0f, 0.0f, 0.0f ) )
+      QVector3D( 0.5f,  0.5f,  0.5f),
+      QVector3D( 0.5f, -0.5f,  0.5f),
+      QVector3D( 0.5f, -0.5f, -0.5f),
+      QVector3D( 0.5f, -0.5f, -0.5f),
+      QVector3D( 0.5f,  0.5f, -0.5f),
+      QVector3D( 0.5f,  0.5f,  0.5f)
 };
 
 OpenGLWidget::OpenGLWidget(QWidget *parent) : QOpenGLWidget(parent){
@@ -116,7 +115,7 @@ void OpenGLWidget::initializeGL(){
       object.create();
       object.bind();
       program->enableAttributeArray(0);
-      program->setAttributeBuffer(0, GL_FLOAT, Vertex::positionOffset(), Vertex::PositionTupleSize, Vertex::stride());
+      program->setAttributeBuffer(0, GL_FLOAT, GL_FALSE, 3, sizeof(QVector3D));
 
       // Release (unbind) all
       object.release();
