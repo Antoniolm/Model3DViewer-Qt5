@@ -19,7 +19,8 @@ SOURCES += main.cpp\
 
 HEADERS  += mainwindow.h \
     openglwidget.h \
-    camera.h
+    camera.h \
+    vertex.h
 
 FORMS    += mainwindow.ui
 

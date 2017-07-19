@@ -57,7 +57,8 @@ OBJECTS       = debug/main.o \
 
 DIST          =  ..\Model3DViewer\mainwindow.h \
 		..\Model3DViewer\openglwidget.h \
-		..\Model3DViewer\camera.h ..\Model3DViewer\main.cpp \
+		..\Model3DViewer\camera.h \
+		..\Model3DViewer\vertex.h ..\Model3DViewer\main.cpp \
 		..\Model3DViewer\mainwindow.cpp \
 		..\Model3DViewer\openglwidget.cpp \
 		..\Model3DViewer\camera.cpp

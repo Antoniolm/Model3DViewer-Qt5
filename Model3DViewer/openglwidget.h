@@ -29,6 +29,12 @@
 #include <QMatrix4x4>
 #include "camera.h"
 
+struct VertexData
+{
+    QVector3D position;
+    QVector2D texCoord;
+};
+
 class QExposeEvent;
 class QOpenGLShaderProgram;
 
@@ -49,6 +55,7 @@ private:
   QOpenGLVertexArrayObject object;
   QOpenGLShaderProgram *program;
   Camera *camera;
+  GLuint vboIds[2];
 
   QMatrix4x4 projection;
 
