@@ -45,9 +45,29 @@ public:
     OpenGLWidget(QWidget *parent = 0);
     virtual ~OpenGLWidget();
 protected:
+    /**
+     * @brief Initialize our OpenGL context
+    */
     void initializeGL();
+
+    /**
+     * @brief It will resize the size of our OpenGL widget
+     * @param w -> Weight of our OpenGL widget
+     * @param h -> Height of our OpenGL widget
+     * @return void
+    */
     void resizeGL(int w, int h);
+
+    /**
+     * @brief Draw our scene
+     * @return void
+     */
     void paintGL();
+
+    /**
+     * @brief Update our scene
+     * @return void
+     */
     void update();
 
 private:
@@ -55,9 +75,6 @@ private:
   QOpenGLVertexArrayObject object;
   QOpenGLShaderProgram *program;
   Camera *camera;
-  GLuint vboIds[2];
-
-  QMatrix4x4 projection;
 
 };
 

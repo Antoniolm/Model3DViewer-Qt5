@@ -27,17 +27,66 @@
 class Camera
 {
 public:
+    /**
+     * @brief Constructor
+     */
     Camera();
+
+    /**
+     * @brief Constructor
+     * @param position -> Position of the camera
+     * @param target -> target of the camera
+     * @param up     -> Orientation of the camera
+     */
     Camera(QVector3D position,QVector3D target, QVector3D up);
+
+    /**
+     * @brief Destructor
+     */
     virtual ~Camera();
 
+    /**
+     * @brief It will set a perspective projection
+     * @param verticalAngle
+     * @param aspectRatio
+     * @param nearPlan
+     * @param farPlan
+     */
     void setPerspective(float verticalAngle,float aspectRatio,float nearPlan,float farPlan);
+
+    /**
+     * @brief It will set an Orthographic projection
+     * @param left
+     * @param right
+     * @param bottom
+     * @param top
+     */
     void setOrthographic(float left,float right,float bottom,float top);
+
+    /**
+     * @brief It will set the camera
+     * @param position
+     * @param target
+     * @param up
+     */
     void setCamera(QVector3D position,QVector3D target, QVector3D up);
 
+    /**
+     * @brief It will return the camera
+     * @return
+     */
     QMatrix4x4 & getCamera();
+
+    /**
+     * @brief It will return the projection
+     * @return
+     */
     QMatrix4x4 & getProjection();
 
+    /**
+     * @brief Activate the camera in the shader
+     * @param shader -> Shader program where the camera will be activated
+     */
     void activate(QOpenGLShaderProgram *shader);
 
 private:

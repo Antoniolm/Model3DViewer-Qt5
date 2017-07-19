@@ -135,6 +135,7 @@ void OpenGLWidget::paintGL(){
     object.bind();
     update();
 
+
     glDrawArrays(GL_TRIANGLES, 0, sizeof(sg_vertexes) / sizeof(sg_vertexes[0]));
     object.release();
     program->release();
