@@ -73,7 +73,6 @@ static const Vertex sg_vertexes[] = {
 OpenGLWidget::OpenGLWidget(QWidget *parent) : QOpenGLWidget(parent){
     camera=new Camera();
     camera->setCamera(QVector3D(0.0f,0.0f,-2.5f),QVector3D(0.0f,0.0f,0.0f),QVector3D(0.0f,1.0f,0.0f));
-    camera->setPerspective(45.0f, 400 / float(800), 0.0f, 1000.0f);
 }
 
 //**********************************************************************//
@@ -133,15 +132,10 @@ void OpenGLWidget::paintGL(){
 
     // Render using our shader
     program->bind();
-    program->setUniformValue(program->uniformLocation("projection"), projection);
+    camera->activate(program);
     object.bind();
     update();
 
-    QMatrix4x4 transform;
-    transform.translate(0.0f,0.0f,-2.5f);
-
-
-    program->setUniformValue(program->uniformLocation("view"), transform);
     glDrawArrays(GL_TRIANGLES, 0, sizeof(sg_vertexes) / sizeof(sg_vertexes[0]));
     object.release();
     program->release();
@@ -151,8 +145,7 @@ void OpenGLWidget::paintGL(){
 //**********************************************************************//
 
 void OpenGLWidget::resizeGL(int w, int h){
-    projection.setToIdentity();
-    projection.perspective(45.0f, w / float(h), 0.0f, 1000.0f);
+    camera->setPerspective(45.0f, w / float(h), 0.0f, 1000.0f);
 }
 
 //**********************************************************************//

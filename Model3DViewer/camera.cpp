@@ -21,12 +21,15 @@
 #include "QRect"
 
 Camera::Camera(){
+    camera.setToIdentity();
+    projection.setToIdentity();
 }
 
 //**********************************************************************//
 
 Camera::Camera(QVector3D position,QVector3D target, QVector3D up){
     camera.lookAt(position,target,up);
+    projection.setToIdentity();
 }
 
 //**********************************************************************//
