@@ -147,23 +147,20 @@ void FileObj::calculate_normals(std::vector<QVector3D> & vertex,std::vector<shor
 
 QVector3D FileObj::calculate_origin(std::vector<QVector3D> & vertex){
     float maxX,maxY,maxZ,minX,minY,minZ;
-    maxX=vertex[0].x;  maxY=vertex[0].y;  maxZ=vertex[0].z;
-    minX=vertex[0].x;  minY=vertex[0].y;  minZ=vertex[0].z;
+    maxX=vertex[0].x();  maxY=vertex[0].y();  maxZ=vertex[0].z();
+    minX=vertex[0].x();  minY=vertex[0].y();  minZ=vertex[0].z();
 
     for(unsigned i=1;i<vertex.size();i++){
-        if(vertex[i].x >maxX) maxX=vertex[i].x;
-        if(vertex[i].y >maxY) maxY=vertex[i].y;
-        if(vertex[i].z >maxZ) maxZ=vertex[i].z;
+        if(vertex[i].x() >maxX) maxX=vertex[i].x();
+        if(vertex[i].y() >maxY) maxY=vertex[i].y();
+        if(vertex[i].z() >maxZ) maxZ=vertex[i].z();
 
-        if(vertex[i].x < minX) minX=vertex[i].x;
-        if(vertex[i].y < minY) minY=vertex[i].y;
-        if(vertex[i].z < minZ) minZ=vertex[i].z;
+        if(vertex[i].x() < minX) minX=vertex[i].x();
+        if(vertex[i].y() < minY) minY=vertex[i].y();
+        if(vertex[i].z() < minZ) minZ=vertex[i].z();
     }
 
-    QVector3D result;
-    result.x = minX+((maxX-minX)/2.0);
-    result.y = minY+((maxY-minY)/2.0);
-    result.z = minZ+((maxZ-minZ)/2.0);
+    QVector3D result(minX+((maxX-minX)/2.0),minY+((maxY-minY)/2.0),minZ+((maxZ-minZ)/2.0));
 
     return result;
 }
