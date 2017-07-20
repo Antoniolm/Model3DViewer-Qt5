@@ -105,22 +105,22 @@ void OpenGLWidget::initializeGL(){
       program->link();
       program->bind();
 
+      // Create Vertex Array Object
+      object.create();
+      object.bind();
+
       // Create Buffer (Do not release until VAO is created)
       vertex.create();
       vertex.bind();
       vertex.setUsagePattern(QOpenGLBuffer::StaticDraw);
       vertex.allocate(sg_vertexes, sizeof(sg_vertexes));
-
-      // Create Vertex Array Object
-      object.create();
-      object.bind();
       program->enableAttributeArray(0);
       program->setAttributeBuffer(0, GL_FLOAT, GL_FALSE, 3, sizeof(QVector3D));
 
       // Release (unbind) all
       object.release();
       vertex.release();
-      program->release();
+
 }
 
 //**********************************************************************//
@@ -130,7 +130,6 @@ void OpenGLWidget::paintGL(){
     glClear(GL_COLOR_BUFFER_BIT);
 
     // Render using our shader
-    program->bind();
     camera->activate(program);
     object.bind();
     update();
@@ -138,7 +137,6 @@ void OpenGLWidget::paintGL(){
 
     glDrawArrays(GL_TRIANGLES, 0, sizeof(sg_vertexes) / sizeof(sg_vertexes[0]));
     object.release();
-    program->release();
 
 }
 
