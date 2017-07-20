@@ -28,6 +28,7 @@
 #include <QOpenGLVertexArrayObject>
 #include <QMatrix4x4>
 #include "camera.h"
+#include "mesh.h"
 
 struct VertexData
 {
@@ -71,10 +72,9 @@ protected:
     void update();
 
 private:
-  QOpenGLBuffer vertex;
-  QOpenGLVertexArrayObject object;
   QOpenGLShaderProgram *program;
   Camera *camera;
+  Mesh * mesh;
 
 };
 

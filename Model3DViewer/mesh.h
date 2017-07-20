@@ -36,10 +36,10 @@ class Mesh
 {
 public:
     Mesh();
-    Mesh(const string & aFile);
+    Mesh(const QString & aFile);
     virtual ~Mesh();
 
-    void setMesh(const string & aFile);
+    void setMesh(const QString & aFile);
     void initialize(QOpenGLShaderProgram *shader);
     void visualization();
     void updateState();

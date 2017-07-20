@@ -19,6 +19,52 @@
 
 #include "mesh.h"
 
+// Create a colored cube
+static const QVector3D sg_vertexes[] = {
+    // Face 1 (Front)
+      QVector3D( 0.5f,  0.5f,  0.5f),
+      QVector3D(-0.5f,  0.5f,  0.5f),
+      QVector3D(-0.5f, -0.5f,  0.5f),
+      QVector3D(-0.5f, -0.5f,  0.5f),
+      QVector3D( 0.5f, -0.5f,  0.5f),
+      QVector3D( 0.5f,  0.5f,  0.5f),
+    // Face 2 (Back)
+      QVector3D( 0.5f, -0.5f, -0.5f),
+      QVector3D(-0.5f,  0.5f, -0.5f),
+      QVector3D( 0.5f,  0.5f, -0.5f),
+      QVector3D(-0.5f,  0.5f, -0.5f),
+      QVector3D( 0.5f, -0.5f, -0.5f),
+      QVector3D(-0.5f, -0.5f, -0.5f),
+    // Face 3 (Top)
+      QVector3D( 0.5f,  0.5f,  0.5f),
+      QVector3D( 0.5f,  0.5f, -0.5f),
+      QVector3D(-0.5f,  0.5f, -0.5f),
+      QVector3D(-0.5f,  0.5f, -0.5f),
+      QVector3D(-0.5f,  0.5f,  0.5f),
+      QVector3D( 0.5f,  0.5f,  0.5f),
+    // Face 4 (Bottom)
+      QVector3D( 0.5f, -0.5f,  0.5f),
+      QVector3D(-0.5f, -0.5f,  0.5f),
+      QVector3D(-0.5f, -0.5f, -0.5f),
+      QVector3D(-0.5f, -0.5f, -0.5f),
+      QVector3D( 0.5f, -0.5f, -0.5f),
+      QVector3D( 0.5f, -0.5f,  0.5f),
+    // Face 5 (Left)
+      QVector3D(-0.5f, -0.5f,  0.5f),
+      QVector3D(-0.5f,  0.5f,  0.5f),
+      QVector3D(-0.5f,  0.5f, -0.5f),
+      QVector3D(-0.5f, -0.5f,  0.5f),
+      QVector3D(-0.5f,  0.5f, -0.5f),
+      QVector3D(-0.5f, -0.5f, -0.5f),
+    // Face 6 (Right)
+      QVector3D( 0.5f,  0.5f,  0.5f),
+      QVector3D( 0.5f, -0.5f,  0.5f),
+      QVector3D( 0.5f, -0.5f, -0.5f),
+      QVector3D( 0.5f, -0.5f, -0.5f),
+      QVector3D( 0.5f,  0.5f, -0.5f),
+      QVector3D( 0.5f,  0.5f,  0.5f)
+};
+
 Mesh::Mesh()
 {
 
@@ -26,19 +72,23 @@ Mesh::Mesh()
 
 //**********************************************************************//
 
-Mesh::Mesh(const string & aFile){
+Mesh::Mesh(const QString & aFile){
 
 }
 
 //**********************************************************************//
 
 Mesh::~Mesh(){
-
+ object.destroy();
+ buffer[POSITION_VB].destroy();
+ buffer[NORMAL_VB].destroy();
+ buffer[TEXCOORD_VB].destroy();
+ buffer[INDEX_VB].destroy();
 }
 
 //**********************************************************************//
 
-void Mesh::setMesh(const string & aFile){
+void Mesh::setMesh(const QString & aFile){
 
 }
 
@@ -56,6 +106,13 @@ void Mesh::initialize(QOpenGLShaderProgram *shader){
     buffer[POSITION_VB].allocate(sg_vertexes, sizeof(sg_vertexes));
     shader->enableAttributeArray(0);
     shader->setAttributeBuffer(0, GL_FLOAT, GL_FALSE, 3, sizeof(QVector3D));
+
+    buffer[POSITION_VB].release();
+    buffer[NORMAL_VB].release();
+    buffer[TEXCOORD_VB].release();
+    buffer[INDEX_VB].release();
+    object.release();
+
 }
 
 //**********************************************************************//
