@@ -88,3 +88,11 @@ void OpenGLWidget::update()
 {
   QOpenGLWidget::update();
 }
+
+//**********************************************************************//
+
+void OpenGLWidget::mouseMoveEvent(QMouseEvent *event)
+{
+    if(event->buttons() == Qt::RightButton)
+        qDebug()<<"("<< event->globalX()<< ","<< event->globalY()<< ")";
+}

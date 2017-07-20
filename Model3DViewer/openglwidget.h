@@ -71,6 +71,12 @@ protected:
      */
     void update();
 
+    /**
+     * @brief It will manage the event of the mouse
+     * @param event
+     */
+    void mouseMoveEvent(QMouseEvent *event);
+
 private:
   QOpenGLShaderProgram *program;
   Camera *camera;
