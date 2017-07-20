@@ -22,6 +22,15 @@
 
 #include <QOpenGLBuffer>
 #include <QOpenGLVertexArrayObject>
+#include <QOpenGLShaderProgram>
+
+enum MeshBufferPositions
+{
+    POSITION_VB,
+    TEXCOORD_VB,
+    NORMAL_VB,
+    INDEX_VB
+};
 
 class Mesh
 {
@@ -31,10 +40,13 @@ public:
     virtual ~Mesh();
 
     void setMesh(const string & aFile);
-    void initialize();
+    void initialize(QOpenGLShaderProgram *shader);
     void visualization();
     void updateState();
 
+private:
+    QOpenGLBuffer buffer[4];
+    QOpenGLVertexArrayObject object;
 
 };
 

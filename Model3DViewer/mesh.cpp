@@ -44,14 +44,26 @@ void Mesh::setMesh(const string & aFile){
 
 //**********************************************************************//
 
-void Mesh::initialize(){
+void Mesh::initialize(QOpenGLShaderProgram *shader){
+    // Create Vertex Array Object
+    object.create();
+    object.bind();
 
+    //Create buffer
+    buffer[POSITION_VB].create();
+    buffer[POSITION_VB].bind();
+    buffer[POSITION_VB].setUsagePattern(QOpenGLBuffer::StaticDraw);
+    buffer[POSITION_VB].allocate(sg_vertexes, sizeof(sg_vertexes));
+    shader->enableAttributeArray(0);
+    shader->setAttributeBuffer(0, GL_FLOAT, GL_FALSE, 3, sizeof(QVector3D));
 }
 
 //**********************************************************************//
 
 void Mesh::visualization(){
-
+    object.bind();
+    glDrawArrays(GL_TRIANGLES, 0, sizeof(sg_vertexes) / sizeof(sg_vertexes[0]));
+    object.release();
 }
 
 //**********************************************************************//
