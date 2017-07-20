@@ -16,12 +16,14 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     openglwidget.cpp \
     camera.cpp \
-    mesh.cpp
+    mesh.cpp \
+    fileobj.cpp
 
 HEADERS  += mainwindow.h \
     openglwidget.h \
     camera.h \
-    mesh.h
+    mesh.h \
+    fileobj.h
 
 FORMS    += mainwindow.ui
 
