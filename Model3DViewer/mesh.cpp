@@ -21,21 +21,40 @@
 
 Mesh::Mesh(){
     // Create a colored cube
-    sg_vertexes.push_back(QVector3D(-0.5f, -0.5f, +0.5f));
-    sg_vertexes.push_back(QVector3D(-0.5f, +0.5f, +0.5f));
-    sg_vertexes.push_back(QVector3D(+0.5f, +0.5f, +0.5f));
-    sg_vertexes.push_back(QVector3D(+0.5f, -0.5f, +0.5f));
+    vertex.push_back(QVector3D(-0.5f, -0.5f, +0.5f));
+    vertex.push_back(QVector3D(-0.5f, +0.5f, +0.5f));
+    vertex.push_back(QVector3D(+0.5f, +0.5f, +0.5f));
+    vertex.push_back(QVector3D(+0.5f, -0.5f, +0.5f));
 
-    sg_vertexes.push_back(QVector3D(-0.5f, -0.5f, -0.5f));
-    sg_vertexes.push_back(QVector3D(-0.5f, +0.5f, -0.5f));
-    sg_vertexes.push_back(QVector3D(+0.5f, +0.5f, -0.5f));
-    sg_vertexes.push_back(QVector3D(+0.5f, -0.5f, -0.5f));
+    vertex.push_back(QVector3D(-0.5f, -0.5f, -0.5f));
+    vertex.push_back(QVector3D(-0.5f, +0.5f, -0.5f));
+    vertex.push_back(QVector3D(+0.5f, +0.5f, -0.5f));
+    vertex.push_back(QVector3D(+0.5f, -0.5f, -0.5f));
+
+    index.push_back(0);index.push_back(2);index.push_back(1);
+    index.push_back(0);index.push_back(3);index.push_back(2);
+
+    index.push_back(7);index.push_back(5);index.push_back(6);
+    index.push_back(7);index.push_back(4);index.push_back(5);
+
+    index.push_back(4);index.push_back(1);index.push_back(5);
+    index.push_back(4);index.push_back(0);index.push_back(1);
+
+    index.push_back(3);index.push_back(6);index.push_back(2);
+    index.push_back(3);index.push_back(7);index.push_back(6);
+
+    index.push_back(1);index.push_back(6);index.push_back(5);
+    index.push_back(1);index.push_back(2);index.push_back(6);
+
+    index.push_back(4);index.push_back(3);index.push_back(0);
+    index.push_back(4);index.push_back(7);index.push_back(3);
 }
 
 //**********************************************************************//
 
-Mesh::Mesh(const QString & aFile){
-
+Mesh::Mesh(const string & aFile){
+    FileObj * fileObj=FileObj::getInstance();
+    fileObj->readEverything(aFile.c_str(),vertex,index,normals,textCoord,true,true);
 }
 
 //**********************************************************************//
@@ -50,34 +69,14 @@ Mesh::~Mesh(){
 
 //**********************************************************************//
 
-void Mesh::setMesh(const QString & aFile){
-
+void Mesh::setMesh(const string & aFile){
+    FileObj * fileObj=FileObj::getInstance();
+    fileObj->readEverything(aFile.c_str(),vertex,index,normals,textCoord,true,true);
 }
 
 //**********************************************************************//
 
 void Mesh::initialize(QOpenGLShaderProgram *shader){
-    unsigned short cubeIndices[] ={
-            // front plane
-            0, 2, 1,
-            0, 3, 2,
-            // back plane
-            7, 5, 6,
-            7, 4, 5,
-            // left plane
-            4, 1, 5,
-            4, 0, 1,
-            // right plane
-            3, 6, 2,
-            3, 7, 6,
-            // top plane
-            1, 6, 5,
-            1, 2, 6,
-            // bottom plane
-            4, 3, 0,
-            4, 7, 3
-        };
-
     // Create Vertex Array Object
     object.create();
     object.bind();
@@ -87,7 +86,7 @@ void Mesh::initialize(QOpenGLShaderProgram *shader){
     buffer[POSITION_VB].create();
     buffer[POSITION_VB].bind();
     buffer[POSITION_VB].setUsagePattern(QOpenGLBuffer::StaticDraw);
-    buffer[POSITION_VB].allocate(&sg_vertexes[0], sg_vertexes.size()*sizeof(QVector3D) );
+    buffer[POSITION_VB].allocate(&vertex[0], vertex.size()*sizeof(QVector3D) );
     shader->enableAttributeArray(0);
     shader->setAttributeBuffer(0, GL_FLOAT, GL_FALSE, 3, 0);
 
@@ -95,11 +94,17 @@ void Mesh::initialize(QOpenGLShaderProgram *shader){
     buffer[INDEX_VB].create();
     buffer[INDEX_VB].bind();
     buffer[INDEX_VB].setUsagePattern(QOpenGLBuffer::StaticDraw);
-    buffer[INDEX_VB].allocate(cubeIndices, 36 * sizeof(unsigned short));
+    buffer[INDEX_VB].allocate(&index[0], index.size() * sizeof(unsigned short));
 
     buffer[POSITION_VB].release();
     buffer[NORMAL_VB].release();
     buffer[TEXCOORD_VB].release();
+
+    vertex.clear();
+    //index.clear();
+    normals.clear();
+    textCoord.clear();
+
     object.release();
 
 }
@@ -108,7 +113,7 @@ void Mesh::initialize(QOpenGLShaderProgram *shader){
 
 void Mesh::visualization(){
     object.bind();
-    glDrawElements(GL_TRIANGLES,36,GL_UNSIGNED_SHORT,0);
+    glDrawElements(GL_TRIANGLES,index.size(),GL_UNSIGNED_SHORT,0);
     object.release();
 }
 

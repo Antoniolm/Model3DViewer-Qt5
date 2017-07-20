@@ -40,14 +40,14 @@ public:
     *    normals,textureCoord of them
     *    \return void
     */
-    void readEverything(const char * fileName,std::vector<QVector3D> & vertex,std::vector<short> & triangles,
+    void readEverything(const char * fileName,std::vector<QVector3D> & vertex,std::vector<unsigned short> & triangles,
                         std::vector<QVector3D> & normals,std::vector<QVector2D> & textureCord, bool flagNormal,bool flagOrigin);
 
     /**
     *    @brief The method will calculate the normals of an object
     *    \return void
     */
-    void calculate_normals(std::vector<QVector3D> & vertex,std::vector<short> & triangles,std::vector<QVector3D> & normals);
+    void calculate_normals(std::vector<QVector3D> & vertex,std::vector<unsigned short> & triangles,std::vector<QVector3D> & normals);
 
     /**
     *    @brief The method will calculate the origin of an object

@@ -18,73 +18,89 @@
 // *********************************************************************
 
 #include "fileobj.h"
+#include "QFile"
+#include "QTextStream"
+
+FileObj* FileObj::instance = NULL;
 
 FileObj::FileObj()
 {
 
 }
 
-void FileObj::readEverything(const char * fileName,std::vector<QVector3D> & vertex,std::vector<short> & triangles,
+void FileObj::readEverything(const char * fileName,std::vector<QVector3D> & vertex,std::vector<unsigned short> & triangles,
                     std::vector<QVector3D> & normals,std::vector<QVector2D> & textureCord,bool flagNormal,bool flagOrigin){
     int value;
     char charValue;
     float x,y,z;
-    istringstream * stream;
+    istringstream * readerStr;
     std::vector<QVector3D> vertexAux;
     std::vector<QVector3D> normalsVertex;
     std::vector<QVector2D> textureVertex;
-    std::vector<short> trianglesIndex;
+    std::vector<unsigned short> trianglesIndex;
     std::vector<int> normalFaces;
     std::vector<int> textureFaces;
-    ifstream in(fileName, ios::in);
+
+    QFile file(fileName);
+    file.open(QIODevice::ReadOnly);
+    QTextStream stream(&file);
+
+    /*if (file.open(QIODevice::ReadOnly)) {
+        cout<< "Exploto"<< fileName<< endl;
+
+        stream << "something" << endl;
+    }*/
+
+    /*ifstream in(fileName, ios::in);
     if (!in)
     {
         cout<< "Cannot open " << fileName << endl;
     }
     else{
         cout<< "Geometry ->"<< fileName<< endl;
-    }
+    }*/
 
     string line;
-    while (getline(in, line))
+    while (!stream.atEnd())
     {
+        line=stream.readLine().toStdString();
         if (line.substr(0,2) == "v "){ //Extract vertex
-            stream=new istringstream(line.substr(2));
-            (*stream) >> x;
-            (*stream) >> y;
-            (*stream) >> z;
+            readerStr=new istringstream(line.substr(2));
+            (*readerStr) >> x;
+            (*readerStr) >> y;
+            (*readerStr) >> z;
             vertexAux.push_back(QVector3D(x,y,z));
         }
         else if (line.substr(0,3) == "vn "){ //Extract normal face
-            stream=new istringstream(line.substr(3));
-            (*stream) >> x;
-            (*stream) >> y;
-            (*stream) >> z;
+            readerStr=new istringstream(line.substr(3));
+            (*readerStr) >> x;
+            (*readerStr) >> y;
+            (*readerStr) >> z;
             normalsVertex.push_back(QVector3D(x,y,z));
 
         }
         else if (line.substr(0,3) == "vt "){ //Extract texture Coord
-            stream=new istringstream(line.substr(3));
-            (*stream) >> x;
-            (*stream) >> y;
+            readerStr=new istringstream(line.substr(3));
+            (*readerStr) >> x;
+            (*readerStr) >> y;
             textureVertex.push_back(QVector2D(x,y));
 
         }
         else if (line.substr(0,2) == "f "){
-            stream=new istringstream(line.substr(2));
+            readerStr=new istringstream(line.substr(2));
             for(int i=0;i<3;i++){
                 //Extract the triangle face
-                (*stream) >> value;
+                (*readerStr) >> value;
                 trianglesIndex.push_back(--value);
 
                 //Extract the texture face
-                (*stream) >> charValue; //Extract the char between element
-                (*stream) >> value;
+                (*readerStr) >> charValue; //Extract the char between element
+                (*readerStr) >> value;
                 textureFaces.push_back(--value);
 
                 //Extract the normals face
-                (*stream) >> charValue; //Extract the char between element
-                (*stream) >> value;
+                (*readerStr) >> charValue; //Extract the char between element
+                (*readerStr) >> value;
                 normalFaces.push_back(--value);
             }
         }
@@ -115,7 +131,7 @@ void FileObj::readEverything(const char * fileName,std::vector<QVector3D> & vert
     }
 }
 
-void FileObj::calculate_normals(std::vector<QVector3D> & vertex,std::vector<short> & triangles,std::vector<QVector3D> & normals){
+void FileObj::calculate_normals(std::vector<QVector3D> & vertex,std::vector<unsigned short> & triangles,std::vector<QVector3D> & normals){
     //Calculate face normals
     QVector3D v1,v2,normalFace;
 

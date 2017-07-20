@@ -24,7 +24,7 @@
 #include <QExposeEvent>
 
 OpenGLWidget::OpenGLWidget(QWidget *parent) : QOpenGLWidget(parent){
-    mesh=new Mesh();
+    mesh=new Mesh(":/chair.obj");
 
     camera=new Camera();
     camera->setCamera(QVector3D(0.0f,0.0f,-2.5f),QVector3D(0.0f,0.0f,0.0f),QVector3D(0.0f,1.0f,0.0f));

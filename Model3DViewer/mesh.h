@@ -24,6 +24,8 @@
 #include <QOpenGLVertexArrayObject>
 #include <QOpenGLShaderProgram>
 #include <vector>
+#include <string>
+#include "fileobj.h"
 
 enum MeshBufferPositions
 {
@@ -39,10 +41,10 @@ class Mesh
 {
 public:
     Mesh();
-    Mesh(const QString & aFile);
+    Mesh(const string & aFile);
     virtual ~Mesh();
 
-    void setMesh(const QString & aFile);
+    void setMesh(const string & aFile);
     void initialize(QOpenGLShaderProgram *shader);
     void visualization();
     void updateState();
@@ -50,7 +52,10 @@ public:
 private:
     QOpenGLBuffer buffer[4];
     QOpenGLVertexArrayObject object;
-    std::vector<QVector3D> sg_vertexes; //Variable for test
+    std::vector<QVector3D> vertex; //Variable for test
+    std::vector<unsigned short> index;
+    std::vector<QVector3D> normals; //Variable for test
+    std::vector<QVector2D> textCoord; //Variable for test
 
 };
 
