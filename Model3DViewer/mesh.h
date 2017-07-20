@@ -23,6 +23,7 @@
 #include <QOpenGLBuffer>
 #include <QOpenGLVertexArrayObject>
 #include <QOpenGLShaderProgram>
+#include <vector>
 
 enum MeshBufferPositions
 {
@@ -31,6 +32,8 @@ enum MeshBufferPositions
     NORMAL_VB,
     INDEX_VB
 };
+
+using namespace std;
 
 class Mesh
 {
@@ -47,6 +50,7 @@ public:
 private:
     QOpenGLBuffer buffer[4];
     QOpenGLVertexArrayObject object;
+    std::vector<QVector3D> sg_vertexes; //Variable for test
 
 };
 

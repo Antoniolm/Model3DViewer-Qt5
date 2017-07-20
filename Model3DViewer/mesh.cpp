@@ -19,54 +19,51 @@
 
 #include "mesh.h"
 
-// Create a colored cube
-static const QVector3D sg_vertexes[] = {
-    // Face 1 (Front)
-      QVector3D( 0.5f,  0.5f,  0.5f),
-      QVector3D(-0.5f,  0.5f,  0.5f),
-      QVector3D(-0.5f, -0.5f,  0.5f),
-      QVector3D(-0.5f, -0.5f,  0.5f),
-      QVector3D( 0.5f, -0.5f,  0.5f),
-      QVector3D( 0.5f,  0.5f,  0.5f),
-    // Face 2 (Back)
-      QVector3D( 0.5f, -0.5f, -0.5f),
-      QVector3D(-0.5f,  0.5f, -0.5f),
-      QVector3D( 0.5f,  0.5f, -0.5f),
-      QVector3D(-0.5f,  0.5f, -0.5f),
-      QVector3D( 0.5f, -0.5f, -0.5f),
-      QVector3D(-0.5f, -0.5f, -0.5f),
-    // Face 3 (Top)
-      QVector3D( 0.5f,  0.5f,  0.5f),
-      QVector3D( 0.5f,  0.5f, -0.5f),
-      QVector3D(-0.5f,  0.5f, -0.5f),
-      QVector3D(-0.5f,  0.5f, -0.5f),
-      QVector3D(-0.5f,  0.5f,  0.5f),
-      QVector3D( 0.5f,  0.5f,  0.5f),
-    // Face 4 (Bottom)
-      QVector3D( 0.5f, -0.5f,  0.5f),
-      QVector3D(-0.5f, -0.5f,  0.5f),
-      QVector3D(-0.5f, -0.5f, -0.5f),
-      QVector3D(-0.5f, -0.5f, -0.5f),
-      QVector3D( 0.5f, -0.5f, -0.5f),
-      QVector3D( 0.5f, -0.5f,  0.5f),
-    // Face 5 (Left)
-      QVector3D(-0.5f, -0.5f,  0.5f),
-      QVector3D(-0.5f,  0.5f,  0.5f),
-      QVector3D(-0.5f,  0.5f, -0.5f),
-      QVector3D(-0.5f, -0.5f,  0.5f),
-      QVector3D(-0.5f,  0.5f, -0.5f),
-      QVector3D(-0.5f, -0.5f, -0.5f),
-    // Face 6 (Right)
-      QVector3D( 0.5f,  0.5f,  0.5f),
-      QVector3D( 0.5f, -0.5f,  0.5f),
-      QVector3D( 0.5f, -0.5f, -0.5f),
-      QVector3D( 0.5f, -0.5f, -0.5f),
-      QVector3D( 0.5f,  0.5f, -0.5f),
-      QVector3D( 0.5f,  0.5f,  0.5f)
-};
-
 Mesh::Mesh()
 {
+    // Create a colored cube
+    // Face 1 (Front)
+    sg_vertexes.push_back(QVector3D( 0.5f,  0.5f,  0.5f));
+    sg_vertexes.push_back(QVector3D(-0.5f,  0.5f,  0.5f));
+    sg_vertexes.push_back(QVector3D(-0.5f, -0.5f,  0.5f));
+    sg_vertexes.push_back(QVector3D(-0.5f, -0.5f,  0.5f));
+    sg_vertexes.push_back(QVector3D( 0.5f, -0.5f,  0.5f));
+    sg_vertexes.push_back(QVector3D( 0.5f,  0.5f,  0.5f));
+  // Face 2 (Back)
+    sg_vertexes.push_back(QVector3D( 0.5f, -0.5f, -0.5f));
+    sg_vertexes.push_back(QVector3D(-0.5f,  0.5f, -0.5f));
+    sg_vertexes.push_back(QVector3D( 0.5f,  0.5f, -0.5f));
+    sg_vertexes.push_back(QVector3D(-0.5f,  0.5f, -0.5f));
+    sg_vertexes.push_back(QVector3D( 0.5f, -0.5f, -0.5f));
+    sg_vertexes.push_back(QVector3D(-0.5f, -0.5f, -0.5f));
+  // Face 3 (Top)
+    sg_vertexes.push_back(QVector3D( 0.5f,  0.5f,  0.5f));
+    sg_vertexes.push_back(QVector3D( 0.5f,  0.5f, -0.5f));
+    sg_vertexes.push_back(QVector3D(-0.5f,  0.5f, -0.5f));
+    sg_vertexes.push_back(QVector3D(-0.5f,  0.5f, -0.5f));
+    sg_vertexes.push_back(QVector3D(-0.5f,  0.5f,  0.5f));
+    sg_vertexes.push_back(QVector3D( 0.5f,  0.5f,  0.5f));
+  // Face 4 (Bottom)
+    sg_vertexes.push_back(QVector3D( 0.5f, -0.5f,  0.5f));
+    sg_vertexes.push_back(QVector3D(-0.5f, -0.5f,  0.5f));
+    sg_vertexes.push_back(QVector3D(-0.5f, -0.5f, -0.5f));
+    sg_vertexes.push_back(QVector3D(-0.5f, -0.5f, -0.5f));
+    sg_vertexes.push_back(QVector3D( 0.5f, -0.5f, -0.5f));
+    sg_vertexes.push_back(QVector3D( 0.5f, -0.5f,  0.5f));
+  // Face 5 (Left)
+    sg_vertexes.push_back(QVector3D(-0.5f, -0.5f,  0.5f));
+    sg_vertexes.push_back(QVector3D(-0.5f,  0.5f,  0.5f));
+    sg_vertexes.push_back(QVector3D(-0.5f,  0.5f, -0.5f));
+    sg_vertexes.push_back(QVector3D(-0.5f, -0.5f,  0.5f));
+    sg_vertexes.push_back(QVector3D(-0.5f,  0.5f, -0.5f));
+    sg_vertexes.push_back(QVector3D(-0.5f, -0.5f, -0.5f));
+  // Face 6 (Right)
+    sg_vertexes.push_back(QVector3D( 0.5f,  0.5f,  0.5f));
+    sg_vertexes.push_back(QVector3D( 0.5f, -0.5f,  0.5f));
+    sg_vertexes.push_back(QVector3D( 0.5f, -0.5f, -0.5f));
+    sg_vertexes.push_back(QVector3D( 0.5f, -0.5f, -0.5f));
+    sg_vertexes.push_back(QVector3D( 0.5f,  0.5f, -0.5f));
+    sg_vertexes.push_back(QVector3D( 0.5f,  0.5f,  0.5f));
 
 }
 
@@ -103,9 +100,10 @@ void Mesh::initialize(QOpenGLShaderProgram *shader){
     buffer[POSITION_VB].create();
     buffer[POSITION_VB].bind();
     buffer[POSITION_VB].setUsagePattern(QOpenGLBuffer::StaticDraw);
-    buffer[POSITION_VB].allocate(sg_vertexes, sizeof(sg_vertexes));
+
+    buffer[POSITION_VB].allocate(&sg_vertexes[0], sg_vertexes.size()*sizeof(QVector3D) );
     shader->enableAttributeArray(0);
-    shader->setAttributeBuffer(0, GL_FLOAT, GL_FALSE, 3, sizeof(QVector3D));
+    shader->setAttributeBuffer(0, GL_FLOAT, GL_FALSE, 3, 0);
 
     buffer[POSITION_VB].release();
     buffer[NORMAL_VB].release();
@@ -119,7 +117,7 @@ void Mesh::initialize(QOpenGLShaderProgram *shader){
 
 void Mesh::visualization(){
     object.bind();
-    glDrawArrays(GL_TRIANGLES, 0, sizeof(sg_vertexes) / sizeof(sg_vertexes[0]));
+    glDrawArrays(GL_TRIANGLES, 0, sg_vertexes.size()*sizeof(QVector3D) / sizeof(sg_vertexes[0]));
     object.release();
 }
 
