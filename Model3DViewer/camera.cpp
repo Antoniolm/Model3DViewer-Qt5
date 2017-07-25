@@ -27,8 +27,12 @@ Camera::Camera(){
 
 //**********************************************************************//
 
-Camera::Camera(QVector3D position,QVector3D target, QVector3D up){
-    camera.lookAt(position,target,up);
+Camera::Camera(QVector3D pos,QVector3D tgt, QVector3D orientation){
+    position=pos;
+    target=tgt;
+    up=orientation;
+
+    camera.lookAt(pos,tgt,orientation);
     projection.setToIdentity();
 }
 
@@ -51,8 +55,30 @@ void Camera::setOrthographic(float left,float right,float bottom,float top){
 
 //**********************************************************************//
 
-void Camera::setCamera(QVector3D position,QVector3D target, QVector3D up){
-    camera.lookAt(position,target,up);
+void Camera::setCamera(QVector3D pos,QVector3D tgt, QVector3D orientation){
+    position=pos;
+    target=tgt;
+    up=orientation;
+
+    camera.lookAt(pos,tgt,orientation);
+}
+
+//**********************************************************************//
+
+QVector3D & Camera::getPosition(){
+    return position;
+}
+
+//**********************************************************************//
+
+QVector3D & Camera::getTarget(){
+    return target;
+}
+
+//**********************************************************************//
+
+QVector3D & Camera::getUp(){
+    return up;
 }
 
 //**********************************************************************//

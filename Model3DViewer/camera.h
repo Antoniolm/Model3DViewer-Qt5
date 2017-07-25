@@ -34,11 +34,11 @@ public:
 
     /**
      * @brief Constructor
-     * @param position -> Position of the camera
-     * @param target -> target of the camera
-     * @param up     -> Orientation of the camera
+     * @param pos -> Position of the camera
+     * @param tgt -> target of the camera
+     * @param orientation -> Orientation of the camera
      */
-    Camera(QVector3D position,QVector3D target, QVector3D up);
+    Camera(QVector3D pos,QVector3D tgt, QVector3D orientation);
 
     /**
      * @brief Destructor
@@ -65,11 +65,29 @@ public:
 
     /**
      * @brief It will set the camera
-     * @param position
-     * @param target
-     * @param up
+     * @param pos -> Position of the camera
+     * @param tgt -> target of the camera
+     * @param orientation -> Orientation of the camera
      */
-    void setCamera(QVector3D position,QVector3D target, QVector3D up);
+    void setCamera(QVector3D pos,QVector3D tgt, QVector3D orientation);
+
+    /**
+     * @brief It will return the position of the camera
+     * @return QVector3D -> position
+     */
+    QVector3D & getPosition();
+
+    /**
+     * @brief It will return the target of the camera
+     * @return QVector3D -> target
+     */
+    QVector3D & getTarget();
+
+    /**
+     * @brief It will return the inclination of the camera
+     * @return QVector3D -> inclination
+     */
+    QVector3D & getUp();
 
     /**
      * @brief It will return the camera
@@ -91,6 +109,13 @@ public:
 
 private:
     QMatrix4x4 camera;
+    QVector3D position;
+    QVector3D target;
+    QVector3D up;
+
+    float angleX;
+    float angleY;
+
     QMatrix4x4 projection;
 };
 

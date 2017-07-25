@@ -82,6 +82,8 @@ private:
   Camera *camera;
   Mesh * mesh;
 
+  float mouseX,mouseY;
+
 };
 
 #endif // OPENGLWIDGET_H
