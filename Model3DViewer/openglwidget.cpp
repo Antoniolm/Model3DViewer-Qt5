@@ -28,6 +28,8 @@ OpenGLWidget::OpenGLWidget(QWidget *parent) : QOpenGLWidget(parent){
 
     camera=new Camera();
     camera->setCamera(QVector3D(0.0f,0.0f,-2.5f),QVector3D(0.0f,0.0f,0.0f),QVector3D(0.0f,1.0f,0.0f));
+    mouseY=0.0;
+    mouseX=0.0;
 }
 
 //**********************************************************************//
@@ -93,8 +95,17 @@ void OpenGLWidget::update()
 
 void OpenGLWidget::mouseMoveEvent(QMouseEvent *event)
 {
+    if(mouseY==0 || mouseX==0.0){
+        mouseX=event->globalX();
+        mouseY=event->globalY();
+    }
+
     if(event->buttons() == Qt::RightButton){
-        qDebug()<<"("<< event->globalX()<< ","<< event->globalY()<< ")";
+        qDebug()<<"("<< event->globalX()<< ","<< event->globalY()<< ") ->"<<(camera->getAngleX() + (event->globalY()- mouseY))/10.0 ;
+        camera->rotate((camera->getAngleX() + (event->globalY()- mouseY))/100.0, (camera->getAngleY() + (event->globalX()- mouseX))/100.0);
+
+        mouseX=event->globalX();
+        mouseY=event->globalY();
     }
 
 }
