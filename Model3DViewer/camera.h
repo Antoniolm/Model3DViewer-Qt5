@@ -89,6 +89,9 @@ public:
      */
     QVector3D & getUp();
 
+    float getAngleX();
+    float getAngleY();
+
     /**
      * @brief It will return the camera
      * @return
@@ -106,6 +109,13 @@ public:
      * @param shader -> Shader program where the camera will be activated
      */
     void activate(QOpenGLShaderProgram *shader);
+
+    /**
+     * @brief It will rotate the camera
+     * @param nAngleX -> The angle of rotation in the X axis
+     * @param nAngleY -> The angle of rotation in the Y axis
+     */
+    void rotate(float nAngleX,float nAngleY);
 
 private:
     QMatrix4x4 camera;

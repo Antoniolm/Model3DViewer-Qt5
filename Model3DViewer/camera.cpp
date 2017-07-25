@@ -23,6 +23,9 @@
 Camera::Camera(){
     camera.setToIdentity();
     projection.setToIdentity();
+
+    angleX=0.0;
+    angleY=0.0;
 }
 
 //**********************************************************************//
@@ -34,6 +37,9 @@ Camera::Camera(QVector3D pos,QVector3D tgt, QVector3D orientation){
 
     camera.lookAt(pos,tgt,orientation);
     projection.setToIdentity();
+
+    angleX=0.0;
+    angleY=0.0;
 }
 
 //**********************************************************************//
@@ -83,6 +89,18 @@ QVector3D & Camera::getUp(){
 
 //**********************************************************************//
 
+float Camera::getAngleX(){
+    return angleX;
+}
+
+//**********************************************************************//
+
+float Camera::getAngleY(){
+    return angleY;
+}
+
+//**********************************************************************//
+
 QMatrix4x4 & Camera::getCamera(){
     return camera;
 }
@@ -98,4 +116,21 @@ QMatrix4x4 & Camera::getProjection(){
 void Camera::activate(QOpenGLShaderProgram *shader){
     shader->setUniformValue(shader->uniformLocation("projection"), projection);
     shader->setUniformValue(shader->uniformLocation("view"), camera);
+}
+
+//**********************************************************************//
+
+void Camera::rotate(float nAngleX,float nAngleY){
+    QMatrix4x4 rotX;
+    QMatrix4x4 rotY;
+    rotX.rotate(nAngleX,1.0,0.0,0.0);
+    rotY.rotate(nAngleY,0.0,1.0,0.0);
+
+    position=rotX*position;
+    position=rotY*position;
+
+    camera.lookAt(position,target,up);
+
+    angleX=nAngleX;
+    angleY=nAngleY;
 }
