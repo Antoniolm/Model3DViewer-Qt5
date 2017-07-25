@@ -29,6 +29,7 @@
 #include <QMatrix4x4>
 #include "camera.h"
 #include "mesh.h"
+#include <math.h>
 
 struct VertexData
 {

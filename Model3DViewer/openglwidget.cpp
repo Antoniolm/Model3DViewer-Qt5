@@ -101,8 +101,9 @@ void OpenGLWidget::mouseMoveEvent(QMouseEvent *event)
     }
 
     if(event->buttons() == Qt::RightButton){
+        qDebug()<<"("<< event->globalX()<< ","<< event->globalY()<< ")";
         qDebug()<<"("<< event->globalX()<< ","<< event->globalY()<< ") ->"<<(camera->getAngleX() + (event->globalY()- mouseY))/10.0 ;
-        camera->rotate((camera->getAngleX() + (event->globalY()- mouseY))/100.0, (camera->getAngleY() + (event->globalX()- mouseX))/100.0);
+        camera->rotate(-((event->globalY()- mouseY))/10.0, -((event->globalX()- mouseX))/10.0);
 
         mouseX=event->globalX();
         mouseY=event->globalY();

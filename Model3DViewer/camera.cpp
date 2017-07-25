@@ -129,7 +129,7 @@ void Camera::rotate(float nAngleX,float nAngleY){
     position=rotX*position;
     position=rotY*position;
 
-    camera.lookAt(position,target,up);
+    camera.lookAt(target,position,up);
 
     angleX=nAngleX;
     angleY=nAngleY;

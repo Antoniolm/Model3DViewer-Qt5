@@ -23,6 +23,7 @@
 #include "QVector3D"
 #include "QMatrix4x4"
 #include <QOpenGLShaderProgram>
+#include <math.h>
 
 class Camera
 {
