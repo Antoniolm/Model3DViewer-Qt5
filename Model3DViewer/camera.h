@@ -90,9 +90,6 @@ public:
      */
     QVector3D & getUp();
 
-    float getAngleX();
-    float getAngleY();
-
     /**
      * @brief It will return the camera
      * @return
@@ -123,9 +120,6 @@ private:
     QVector3D position;
     QVector3D target;
     QVector3D up;
-
-    float angleX;
-    float angleY;
 
     QMatrix4x4 projection;
 };

@@ -23,9 +23,6 @@
 Camera::Camera(){
     camera.setToIdentity();
     projection.setToIdentity();
-
-    angleX=0.0;
-    angleY=0.0;
 }
 
 //**********************************************************************//
@@ -37,9 +34,6 @@ Camera::Camera(QVector3D pos,QVector3D tgt, QVector3D orientation){
 
     camera.lookAt(pos,tgt,orientation);
     projection.setToIdentity();
-
-    angleX=0.0;
-    angleY=0.0;
 }
 
 //**********************************************************************//
@@ -85,18 +79,6 @@ QVector3D & Camera::getTarget(){
 
 QVector3D & Camera::getUp(){
     return up;
-}
-
-//**********************************************************************//
-
-float Camera::getAngleX(){
-    return angleX;
-}
-
-//**********************************************************************//
-
-float Camera::getAngleY(){
-    return angleY;
 }
 
 //**********************************************************************//

@@ -81,7 +81,7 @@ void OpenGLWidget::paintGL(){
 //**********************************************************************//
 
 void OpenGLWidget::resizeGL(int w, int h){
-    camera->setPerspective(45.0f, w / float(h), 0.0f, 1000.0f);
+    camera->setPerspective(30.0f, w / float(h), 0.0f, 1000.0f);
 }
 
 //**********************************************************************//
@@ -96,8 +96,6 @@ void OpenGLWidget::update()
 void OpenGLWidget::mouseMoveEvent(QMouseEvent *event)
 {   
     if(event->buttons() == Qt::RightButton){
-        qDebug()<<"("<< event->x()<< ","<< event->y()<< ") ->"<<event->x()-mouseX<< ","<<event->y()-mouseY;
-
         float angleX,angleY;
         angleY=-(event->y()- mouseY);
         angleX=-(event->x()- mouseX);
