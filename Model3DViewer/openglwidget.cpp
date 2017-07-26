@@ -94,19 +94,39 @@ void OpenGLWidget::update()
 //**********************************************************************//
 
 void OpenGLWidget::mouseMoveEvent(QMouseEvent *event)
-{
-    if(mouseY==0 || mouseX==0.0){
-        mouseX=event->globalX();
-        mouseY=event->globalY();
-    }
-
+{   
     if(event->buttons() == Qt::RightButton){
-        qDebug()<<"("<< event->globalX()<< ","<< event->globalY()<< ")";
-        qDebug()<<"("<< event->globalX()<< ","<< event->globalY()<< ") ->"<<(camera->getAngleX() + (event->globalY()- mouseY))/10.0 ;
-        camera->rotate(-((event->globalY()- mouseY))/10.0, -((event->globalX()- mouseX))/10.0);
+        qDebug()<<"("<< event->x()<< ","<< event->y()<< ") ->"<<event->x()-mouseX<< ","<<event->y()-mouseY;
 
-        mouseX=event->globalX();
-        mouseY=event->globalY();
+        float angleX,angleY;
+        angleY=-(event->y()- mouseY);
+        angleX=-(event->x()- mouseX);
+
+        camera->rotate(angleY, angleX);
+
+        mouseX=event->x();
+        mouseY=event->y();
+    }
+}
+
+//**********************************************************************//
+
+void OpenGLWidget::mouseReleaseEvent(QMouseEvent *event){
+    if(event->button() == Qt::RightButton){
+        qDebug()<<"(Despulsado)";
     }
 
+}
+
+//**********************************************************************//
+
+void OpenGLWidget::mousePressEvent(QMouseEvent *event){
+    if(event->button() == Qt::RightButton){
+        offsetX=event->x();
+        offsetY=event->y();
+
+        mouseX=event->x();
+        mouseY=event->y();
+        qDebug()<<"(Pulsado)";
+    }
 }

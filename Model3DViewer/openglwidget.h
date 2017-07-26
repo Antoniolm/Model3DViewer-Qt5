@@ -77,6 +77,9 @@ protected:
      * @param event
      */
     void mouseMoveEvent(QMouseEvent *event);
+    void mouseReleaseEvent(QMouseEvent *event);
+    void mousePressEvent(QMouseEvent *event);
+
 
 private:
   QOpenGLShaderProgram *program;
@@ -84,6 +87,7 @@ private:
   Mesh * mesh;
 
   float mouseX,mouseY;
+  float offsetX,offsetY;
 
 };
 

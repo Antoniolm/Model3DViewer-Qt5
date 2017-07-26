@@ -126,11 +126,8 @@ void Camera::rotate(float nAngleX,float nAngleY){
     rotX.rotate(nAngleX,1.0,0.0,0.0);
     rotY.rotate(nAngleY,0.0,1.0,0.0);
 
-    position=rotX*position;
-    position=rotY*position;
+    QVector3D newPos=rotX*position;
+    newPos=rotY*newPos;
 
-    camera.lookAt(target,position,up);
-
-    angleX=nAngleX;
-    angleY=nAngleY;
+    camera.lookAt(target,newPos,up);
 }
